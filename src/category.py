@@ -5,6 +5,7 @@ class Category:
     """
     Класс категорий продуктов
     """
+
     name: str
     description: str
     products: list[Product]

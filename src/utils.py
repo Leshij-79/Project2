@@ -1,11 +1,12 @@
 import json
 import os
+from typing import Any
 
 from src.category import Category
 from src.product import Product
 
 
-def read_json(path: str) -> list[dict]:
+def read_json_file(path: str) -> Any:
     """
     Функция чтения данных товарам из json-файла
     :param path: Путь к json-файлу с данными товаров
@@ -18,7 +19,7 @@ def read_json(path: str) -> list[dict]:
     return json_data
 
 
-def create_object_class_from_json(data: list[dict]) -> list[object]:
+def create_object_class_from_json(data: list[dict]) -> list[Category]:
     """
     Функция создания объектов классов из данных, полученных из json-файла
     :param data: Список словарей данных, прочитанных из json-файла
@@ -27,29 +28,10 @@ def create_object_class_from_json(data: list[dict]) -> list[object]:
     list_category = []
     for data_category in data:
         list_product = []
-        for data_product in data_category['products']:
+        for data_product in data_category["products"]:
             list_product.append(Product(**data_product))
 
-        data_category['products'] = list_product
+        data_category["products"] = list_product
         list_category.append(Category(**data_category))
 
     return list_category
-
-
-if __name__ == "__main__":
-    path = "../data/products.json"
-
-    data_list = create_object_class_from_json(read_json(path))
-    for item in data_list:
-        print(f'Категория - {item.name}')
-        print(f'Описание - {item.description}')
-        for item_product in item.products:
-            print(f'Товар - {item_product.name}')
-            print(f'Описание - {item_product.description}')
-            print(f'Цена - {item_product.price}')
-            print(f'Количество - {item_product.quantity}')
-            print(f'Сумма - {item_product.price * item_product.quantity}')
-            print('-' * 50)
-        print('=' * 50)
-
-
