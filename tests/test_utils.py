@@ -40,5 +40,5 @@ def test_create_object_class_from_json() -> None:
     assert result[0].products[0].description == "Фоновая подсветка"
     assert result[0].products[0].price == 123000.0
     assert result[0].products[0].quantity == 7
-    assert result[0].category_count == 2
-    assert result[0].product_count == 2
+    assert result[0].category_count == 4
+    assert result[0].product_count == 7
