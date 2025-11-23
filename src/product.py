@@ -48,30 +48,28 @@ class Product:
             print("Цена не должна быть нулевая или отрицательная")
 
     @classmethod
-    def new_product(cls, name: str, description: str, price: float, quantity: int, list_product: list = []):
+    def new_product(cls, data_dict: dict, list_product: list = []):
         """
         Классовый метод для добавления нового продукта/товара с проверкой на повторение (опционально) с суммированием
         количества продукта/товара на складе и установления большей цены из повторяющихся, в тч с проверкой цены на
         0 или отрицательность
-        :param name: Наименование продукта/товара в формате строки
-        :param description: Описание продукта/товара в формате строки
-        :param price: Цена продукта/товара в формате числа с плавающей точкой
-        :param quantity: Количество на складе в формате целого числа
+        :param data_dict: Данные по товару в формате словаря
         :param list_product: Список объектов класса Product
         :return: Ссылка на объект класса Product
         """
-        if price <= 0:
+        if data_dict['price'] <= 0:
             print("Цена не должна быть нулевая или отрицательная")
             return
         if len(list_product) > 0:
             add_for_list = 1
             for product in list_product:
-                if product.name == name:
-                    product.quantity += quantity
-                    if product.price < price:
-                        product.price = price
+                if product.name == data_dict['name']:
+                    product.quantity += data_dict['quantity']
+                    if product.price < data_dict['price']:
+                        product.price = data_dict['price']
                     add_for_list = 0
                     return
             if add_for_list:
-                list_product.append(cls(name, description, price, quantity))
-        return cls(name, description, price, quantity)
+                list_product.append(cls(data_dict['name'], data_dict['description'],
+                data_dict['price'], data_dict['quantity']))
+        return cls(data_dict['name'], data_dict['description'], data_dict['price'], data_dict['quantity'])

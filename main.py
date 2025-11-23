@@ -9,7 +9,7 @@ if __name__ == "__main__":
     category1 = Category(
         "Смартфоны",
         "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства " "жизни",
-        [product1, product2, product3],
+        [product1, product2, product3]
     )
 
     print(category1.products_in_str)
@@ -22,10 +22,15 @@ if __name__ == "__main__":
     print(category1.product_count)
 
     new_product = Product.new_product(
-        "Samsung Galaxy S23 Ultra-1", "256GB, Серый цвет, 200MP камера", 180000.0, 5, list_product
-    )
+        {"name": "Samsung Galaxy S23 Ultra-", "description": "256GB, Серый цвет, 200MP камера", "price": 180000.0,
+         "quantity": 5}, list_product)
 
     if new_product is not None:
+        print(new_product.name)
+        print(new_product.description)
+        print(new_product.price)
+        print(new_product.quantity)
+
         new_product.price = 800
         print(new_product.price)
 
