@@ -34,3 +34,12 @@ def test_add_product(fixture_category_second: Category) -> None:
     product2 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
     fixture_category_second.add_product(product2)
     assert fixture_category_second.category_count == 3
+
+
+def test_number_of_products(fixture_category_second) -> None:
+    """
+    Тест формирования f-строки по общему количеству товаров/продуктов в категории
+    :param fixture_category_second: Фикстура двух товаров
+    :return: Результаты теста
+    """
+    assert str(fixture_category_second) == 'Телевизоры, количество продуктов: 15 шт.'

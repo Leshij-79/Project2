@@ -73,3 +73,19 @@ class Product:
                 list_product.append(cls(data_dict['name'], data_dict['description'],
                 data_dict['price'], data_dict['quantity']))
         return cls(data_dict['name'], data_dict['description'], data_dict['price'], data_dict['quantity'])
+
+
+    def __str__(self):
+        """
+        Магичский метод __str__ для формирования f-строки по товару/продукту для печати
+        :return: f-cтрока для печати
+        """
+        return f'{self.name}, {self.__price} руб. Остаток: {self.quantity}'
+
+
+    def __add__(self, other) -> float:
+        """
+        Магический метод __add__ для расчета общей суммы по двум товарам
+        :return: Общая сумма по двум товарам в формате float
+        """
+        return (self.__price * self.quantity) + (other.__price * other.quantity)
