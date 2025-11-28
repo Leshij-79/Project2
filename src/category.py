@@ -57,15 +57,3 @@ class Category:
         """
         Category.product_count += 1
         self.__products.append(product)
-
-
-    def __str__(self):
-        """
-        Магический метод __str__ для формирования f-строки по общему количеству товаров/продуктов в категории
-        :return: f-строка с указанием категории товаров/продуктов и общего количества товаров/продуктов в категории
-        """
-        number_of_products = 0
-        for product in self.__products:
-            number_of_products += product.quantity
-
-        return f'{self.name}, количество продуктов: {number_of_products} шт.'

@@ -42,4 +42,4 @@ def test_number_of_products(fixture_category_second) -> None:
     :param fixture_category_second: Фикстура двух товаров
     :return: Результаты теста
     """
-    assert str(fixture_category_second) == 'Телевизоры, количество продуктов: 15 шт.'
+    assert str(fixture_category_second) == "Телевизоры, количество продуктов: 15 шт."
