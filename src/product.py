@@ -57,19 +57,34 @@ class Product:
         :param list_product: Список объектов класса Product
         :return: Ссылка на объект класса Product
         """
-        if data_dict['price'] <= 0:
+        if data_dict["price"] <= 0:
             print("Цена не должна быть нулевая или отрицательная")
             return
         if len(list_product) > 0:
             add_for_list = 1
             for product in list_product:
-                if product.name == data_dict['name']:
-                    product.quantity += data_dict['quantity']
-                    if product.price < data_dict['price']:
-                        product.price = data_dict['price']
+                if product.name == data_dict["name"]:
+                    product.quantity += data_dict["quantity"]
+                    if product.price < data_dict["price"]:
+                        product.price = data_dict["price"]
                     add_for_list = 0
                     return
             if add_for_list:
-                list_product.append(cls(data_dict['name'], data_dict['description'],
-                data_dict['price'], data_dict['quantity']))
-        return cls(data_dict['name'], data_dict['description'], data_dict['price'], data_dict['quantity'])
+                list_product.append(
+                    cls(data_dict["name"], data_dict["description"], data_dict["price"], data_dict["quantity"])
+                )
+        return cls(data_dict["name"], data_dict["description"], data_dict["price"], data_dict["quantity"])
+
+    def __str__(self):
+        """
+        Магический метод __str__ для формирования f-строки по товару/продукту для печати
+        :return: f-cтрока для печати
+        """
+        return f"{self.name}, {self.__price} руб. Остаток: {self.quantity}"
+
+    def __add__(self, other) -> float:
+        """
+        Магический метод __add__ для расчета общей суммы по двум товарам
+        :return: Общая сумма по двум товарам в формате float
+        """
+        return (self.__price * self.quantity) + (other.__price * other.quantity)
