@@ -1,6 +1,7 @@
 import pytest
 
 from src.category import Category
+from src.category_iterator import CategoryIterator
 from src.product import Product
 
 
@@ -28,3 +29,8 @@ def fixture_category_second() -> Category:
             Product(name="Iphone 15", description="512GB, Gray space", price=210000.0, quantity=8),
         ],
     )
+
+
+@pytest.fixture
+def fixture_category_iterator(fixture_category_second) -> CategoryIterator:
+    return CategoryIterator(fixture_category_second)

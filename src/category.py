@@ -44,6 +44,10 @@ class Category:
 
     @property
     def products(self) -> list[Product]:
+        """
+        Геттер для приватного атрибута __products
+        :return: Список объектов Product
+        """
         return self.__products
 
     def add_product(self, product: Product) -> None:
