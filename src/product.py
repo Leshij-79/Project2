@@ -48,7 +48,7 @@ class Product:
             print("Цена не должна быть нулевая или отрицательная")
 
     @classmethod
-    def new_product(cls, data_dict: dict, list_product: list = []):
+    def new_product(cls, data_dict: dict, list_product: list = []) -> Any:
         """
         Классовый метод для добавления нового продукта/товара с проверкой на повторение (опционально) с суммированием
         количества продукта/товара на складе и установления большей цены из повторяющихся, в тч с проверкой цены на
@@ -57,60 +57,113 @@ class Product:
         :param list_product: Список объектов класса Product
         :return: Ссылка на объект класса Product
         """
-        if data_dict['price'] <= 0:
+        if data_dict["price"] <= 0:
             print("Цена не должна быть нулевая или отрицательная")
             return
         if len(list_product) > 0:
             add_for_list = 1
             for product in list_product:
-                if product.name == data_dict['name']:
-                    product.quantity += data_dict['quantity']
-                    if product.price < data_dict['price']:
-                        product.price = data_dict['price']
+                if product.name == data_dict["name"]:
+                    product.quantity += data_dict["quantity"]
+                    if product.price < data_dict["price"]:
+                        product.price = data_dict["price"]
                     add_for_list = 0
                     return
             if add_for_list:
-                list_product.append(cls(data_dict['name'], data_dict['description'],
-                data_dict['price'], data_dict['quantity']))
-        return cls(data_dict['name'], data_dict['description'], data_dict['price'], data_dict['quantity'])
+                list_product.append(
+                    cls(data_dict["name"], data_dict["description"], data_dict["price"], data_dict["quantity"])
+                )
+        return cls(data_dict["name"], data_dict["description"], data_dict["price"], data_dict["quantity"])
 
 
 class Smartphone(Product):
+    """
+    Класс товаров по виду Смартфон. Дочерний класс класса Product
+    """
+
     efficiency: float
     model: str
     memory: int
     color: str
 
-
-    def __init__(self, name: str, description: str, price: float, quantity: int,
-                 efficiency: float, model: str, memory: int, color: str):
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        efficiency: float,
+        model: str,
+        memory: int,
+        color: str,
+    ):
+        """
+        Инициализация класса Smartphone
+        :param name: Наименование продукта/товара в формате строки
+        :param description: Описание продукта/товара в формате строки
+        :param price: Цена продукта/товара в формате числа с плавающей точкой
+        :param quantity: Количество на складе в формате целого числа
+        :param efficiency: Производительность
+        :param model: Модель смартфона
+        :param memory: Объём встроенной памяти
+        :param color: Цвет
+        """
         super().__init__(name, description, price, quantity)
         self.efficiency = efficiency
         self.model = model
         self.memory = memory
         self.color = color
 
-
-    def __add__(self, other):
+    def __add__(self, other) -> Any:
+        """
+        Метод сложения суммы по двум товарам класса Smartphone с проверкой на соответствие класса
+        :param other: Ссылка на второй объект товара класса Smartphone
+        """
         if not isinstance(other, Smartphone):
             raise TypeError
         return (self.price * self.quantity) + (other.price * other.quantity)
 
 
 class LawnGrass(Product):
+    """
+    Класс товаров по виду Трава газонная. Дочерний класс класса Product
+    """
+
     country: str
     germination_period: str
     color: str
 
-    def __init__(self, name: str, description: str, price: float, quantity: int,
-                 country: str, germination_period: str, color: str):
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: str,
+        color: str,
+    ):
+        """
+        Инициализация класса LawnGrass
+        :param name: Наименование продукта/товара в формате строки
+        :param description: Описание продукта/товара в формате строки
+        :param price: Цена продукта/товара в формате числа с плавающей точкой
+        :param quantity: Количество на складе в формате целого числа
+        :param country: Страна производитель
+        :param germination_period: Срок прорастания
+        :param color: Цвет
+        """
         super().__init__(name, description, price, quantity)
         self.country = country
         self.germination_period = germination_period
         self.color = color
 
-    def __add__(self, other):
+    def __add__(self, other) -> Any:
+        """
+        Метод сложения суммы по двум товарам класса LawnGrass с проверкой на соответствие класса
+        :param other: Ссылка на второй объект товара класса LawnGrass
+        :return: Сумма по двум товарам
+        """
         if not isinstance(other, LawnGrass):
             raise TypeError
         return (self.price * self.quantity) + (other.price * other.quantity)
-

@@ -38,7 +38,10 @@ def test_add_product(fixture_category_second: Category) -> None:
     assert fixture_category_second.category_count == 3
 
 
-def test_add_product_error() -> None:
+def test_add_product_error(fixture_category_second: Category) -> None:
+    """
+    Тест на ошибочный класс при добавлении товара или продукта в категорию
+    :return: Результат теста
+    """
     with pytest.raises(TypeError):
-        Category.add_product(1)
-
+        fixture_category_second.add_product(1)

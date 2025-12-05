@@ -1,6 +1,7 @@
 import json
 from unittest.mock import mock_open, patch
 
+from src.category import Category
 from src.utils import create_object_class_from_json, read_json_file
 
 
@@ -24,6 +25,8 @@ def test_read_json(mock_json_file) -> None:
 
 
 def test_create_object_class_from_json() -> None:
+    Category.category_count = 0
+    Category.product_count = 0
     data = [
         {
             "name": "Телевизоры",
@@ -40,5 +43,5 @@ def test_create_object_class_from_json() -> None:
     assert result[0].products[0].description == "Фоновая подсветка"
     assert result[0].products[0].price == 123000.0
     assert result[0].products[0].quantity == 7
-    assert result[0].category_count == 4
-    assert result[0].product_count == 7
+    assert result[0].category_count == 1
+    assert result[0].product_count == 1

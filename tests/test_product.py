@@ -1,6 +1,6 @@
 import pytest
 
-from src.product import Product, Smartphone, LawnGrass
+from src.product import LawnGrass, Product, Smartphone
 
 
 def test_product_init(fixture_product: Product) -> None:
@@ -36,19 +36,21 @@ def test_product_price_setter_zero_price(capsys, fixture_product: Product) -> No
     assert message == "Цена не должна быть нулевая или отрицательная\n"
 
 
-@pytest.mark.parametrize("data_dict", [({'name': '55" QLED 4K', 'description': "Фоновая подсветка",
-                                         'price': 12000, 'quantity': 7})])
+@pytest.mark.parametrize(
+    "data_dict", [{"name": '55" QLED 4K', "description": "Фоновая подсветка", "price": 12000, "quantity": 7}]
+)
 def test_product_new_product(data_dict: dict) -> None:
     """
     Тест на добавление товара
     Использование параметризации
     :return: Результат теста
     """
-    assert Product.new_product(data_dict).name == data_dict['name']
+    assert Product.new_product(data_dict).name == data_dict["name"]
 
 
-@pytest.mark.parametrize("data_dict", [({'name': '55" QLED 4K', 'description': "Фоновая подсветка",
-                                         'price': 0, 'quantity': 7})])
+@pytest.mark.parametrize(
+    "data_dict", [{"name": '55" QLED 4K', "description": "Фоновая подсветка", "price": 0, "quantity": 7}]
+)
 def test_product_new_product_zero_price(capsys, data_dict: dict) -> None:
     """
     Тест на добавление товара с нулевой ценой
@@ -60,8 +62,9 @@ def test_product_new_product_zero_price(capsys, data_dict: dict) -> None:
     assert message == "Цена не должна быть нулевая или отрицательная\n"
 
 
-@pytest.mark.parametrize("data_dict", [({'name': '55" QLED 4K', 'description': "Фоновая подсветка",
-                                         'price': 120000, 'quantity': 7})])
+@pytest.mark.parametrize(
+    "data_dict", [{"name": '55" QLED 4K', "description": "Фоновая подсветка", "price": 120000, "quantity": 7}]
+)
 def test_product_new_product_double_product(data_dict: dict) -> None:
     """
     Тест на добавление товара с дублированием наименования
@@ -74,8 +77,9 @@ def test_product_new_product_double_product(data_dict: dict) -> None:
     assert list_product[0].quantity == 14
 
 
-@pytest.mark.parametrize("data_dict", [({'name': '55" QLED 4K', 'description': "Фоновая подсветка",
-                                         'price': 125000, 'quantity': 7})])
+@pytest.mark.parametrize(
+    "data_dict", [{"name": '55" QLED 4K', "description": "Фоновая подсветка", "price": 125000, "quantity": 7}]
+)
 def test_product_new_product_double_product_second(data_dict: dict) -> None:
     """
     Тест на добавление товара с дублированием наименования
@@ -88,8 +92,9 @@ def test_product_new_product_double_product_second(data_dict: dict) -> None:
     assert list_product[0].quantity == 14
 
 
-@pytest.mark.parametrize("data_dict", [({'name': '55" QLED 4K-1', 'description': "Фоновая подсветка",
-                                         'price': 125000, 'quantity': 7})])
+@pytest.mark.parametrize(
+    "data_dict", [{"name": '55" QLED 4K-1', "description": "Фоновая подсветка", "price": 125000, "quantity": 7}]
+)
 def test_product_new_product_double_product_third(data_dict) -> None:
     """
     Тест на добавление товара
