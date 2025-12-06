@@ -31,25 +31,27 @@ def test_product_price_setter_zero_price(capsys, fixture_product: Product) -> No
     :param fixture_product: Фикстура товара
     :return: Результат теста
     """
-    message = capsys.readouterr()
+    # message = capsys.readouterr()
     fixture_product.price = 0.0
     message = capsys.readouterr()
-    assert message.out.strip() == "Цена не должна быть нулевая или отрицательная"
+    assert message.out.strip().split("\n")[-1] == "Цена не должна быть нулевая или отрицательная"
 
 
-@pytest.mark.parametrize("data_dict", [({'name': '55" QLED 4K', 'description': "Фоновая подсветка",
-                                         'price': 12000, 'quantity': 7})])
+@pytest.mark.parametrize(
+    "data_dict", [{"name": '55" QLED 4K', "description": "Фоновая подсветка", "price": 12000, "quantity": 7}]
+)
 def test_product_new_product(data_dict: dict) -> None:
     """
     Тест на добавление товара
     Использование параметризации
     :return: Результат теста
     """
-    assert Product.new_product(data_dict).name == data_dict['name']
+    assert Product.new_product(data_dict).name == data_dict["name"]
 
 
-@pytest.mark.parametrize("data_dict", [({'name': '55" QLED 4K', 'description': "Фоновая подсветка",
-                                         'price': 0, 'quantity': 7})])
+@pytest.mark.parametrize(
+    "data_dict", [{"name": '55" QLED 4K', "description": "Фоновая подсветка", "price": 0, "quantity": 7}]
+)
 def test_product_new_product_zero_price(capsys, data_dict: dict) -> None:
     """
     Тест на добавление товара с нулевой ценой
@@ -61,8 +63,9 @@ def test_product_new_product_zero_price(capsys, data_dict: dict) -> None:
     assert message == "Цена не должна быть нулевая или отрицательная\n"
 
 
-@pytest.mark.parametrize("data_dict", [({'name': '55" QLED 4K', 'description': "Фоновая подсветка",
-                                         'price': 120000, 'quantity': 7})])
+@pytest.mark.parametrize(
+    "data_dict", [{"name": '55" QLED 4K', "description": "Фоновая подсветка", "price": 120000, "quantity": 7}]
+)
 def test_product_new_product_double_product(data_dict: dict) -> None:
     """
     Тест на добавление товара с дублированием наименования
@@ -75,8 +78,9 @@ def test_product_new_product_double_product(data_dict: dict) -> None:
     assert list_product[0].quantity == 14
 
 
-@pytest.mark.parametrize("data_dict", [({'name': '55" QLED 4K', 'description': "Фоновая подсветка",
-                                         'price': 125000, 'quantity': 7})])
+@pytest.mark.parametrize(
+    "data_dict", [{"name": '55" QLED 4K', "description": "Фоновая подсветка", "price": 125000, "quantity": 7}]
+)
 def test_product_new_product_double_product_second(data_dict: dict) -> None:
     """
     Тест на добавление товара с дублированием наименования
@@ -106,6 +110,11 @@ def test_product_new_product_double_product_third(data_dict) -> None:
 
 
 def test_product_smartphone_init(fixture_smartphone: Smartphone) -> None:
+    """
+    Тест на инициализацию класса Смартфоны
+    :param fixture_smartphone: Фикстура смартфонов
+    :return: Результат тестов
+    """
     assert fixture_smartphone.name == "Iphone 15"
     assert fixture_smartphone.description == "512GB, Gray space"
     assert fixture_smartphone.price == 210000.0
@@ -117,6 +126,11 @@ def test_product_smartphone_init(fixture_smartphone: Smartphone) -> None:
 
 
 def test_product_lawngrass_init(fixture_lawngrass: LawnGrass) -> None:
+    """
+    Тест на инициализацию класса Газонная трава
+    :param fixture_lawngrass: Фикстура по газонной траве
+    :return: Результаты тестов
+    """
     assert fixture_lawngrass.name == "Газонная трава"
     assert fixture_lawngrass.description == "Элитная трава для газона"
     assert fixture_lawngrass.price == 500.0
@@ -127,19 +141,31 @@ def test_product_lawngrass_init(fixture_lawngrass: LawnGrass) -> None:
 
 
 def test_product_smartphone_add(fixture_smartphone: Smartphone, fixture_smartphone_second: Smartphone) -> None:
+    """
+    Тест на сложение объектов класса Смартфон
+    """
     assert fixture_smartphone + fixture_smartphone_second == 2580000.0
 
 
 def test_product_lawngrass_add(fixture_lawngrass: LawnGrass, fixture_lawngrass_second: LawnGrass) -> None:
+    """
+    Тест на сложение объектов класса Газонная трава
+    """
     assert fixture_lawngrass + fixture_lawngrass_second == 16750.0
 
 
 def test_product_smartphone_add_error(fixture_smartphone: Smartphone) -> None:
+    """
+    Тест на ошибку при слолжении объекта класса Смартфон с иным объектом
+    """
     with pytest.raises(TypeError):
         fixture_smartphone + 1
 
 
 def test_product_lawngrass_add_error(fixture_lawngrass: LawnGrass) -> None:
+    """
+    Тест на ошибку при слолжении объекта класса Газонная трава с иным объектом
+    """
     with pytest.raises(TypeError):
         fixture_lawngrass + 1
 
@@ -161,3 +187,11 @@ def test_add_products() -> None:
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
     assert (product1 + product2) == 2580000.0
+
+
+def test_product_mixin(capsys, fixture_product) -> None:
+    """
+    Тест на класс миксин
+    """
+    message = capsys.readouterr()
+    assert message.out.strip() == 'Product(55" QLED 4K, Фоновая подсветка, 12000, 7)'

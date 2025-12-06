@@ -61,10 +61,10 @@ class Category:
         else:
             raise TypeError
 
-
     def __str__(self):
-        """Строковое отображение в следующем виде: Название категории, количество продуктов: XXX шт."""
-
+        """
+        Строковое отображение в следующем виде: Название категории, количество продуктов: XXX шт.
+        """
         summ_prod = 0
         for prod in self.__products:
             summ_prod += prod.quantity

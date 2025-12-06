@@ -3,21 +3,35 @@ from typing import Any
 
 
 class BaseProduct(ABC):
+    """
+    Абстрактный базовый класс для класса Product
+    """
 
     @abstractmethod
-    def __add__(self,other):
+    def __add__(self, other):
+        """
+        Адстрактный метод __add__
+        """
         pass
 
 
 class ProductMixin:
+    """
+    Класс миксин для класса Product
+    """
 
     def __init__(self):
+        """
+        Инициализация класса миксина
+        """
         print(repr(self))
 
-
     def __repr__(self):
+        """
+        Переопределение метода __repr__
+        :return: f-строка для вывода информации
+        """
         return f"{self.__class__.__name__}({self.name}, {self.description}, {self.price}, {self.quantity})"
-
 
 
 class Product(BaseProduct, ProductMixin):
@@ -77,16 +91,16 @@ class Product(BaseProduct, ProductMixin):
         :param list_product: Список объектов класса Product
         :return: Ссылка на объект класса Product
         """
-        if data_dict['price'] <= 0:
+        if data_dict["price"] <= 0:
             print("Цена не должна быть нулевая или отрицательная")
             return
         if len(list_product) > 0:
             add_for_list = 1
             for product in list_product:
-                if product.name == data_dict['name']:
-                    product.quantity += data_dict['quantity']
-                    if product.price < data_dict['price']:
-                        product.price = data_dict['price']
+                if product.name == data_dict["name"]:
+                    product.quantity += data_dict["quantity"]
+                    if product.price < data_dict["price"]:
+                        product.price = data_dict["price"]
                     add_for_list = 0
                     return
             if add_for_list:
@@ -95,14 +109,12 @@ class Product(BaseProduct, ProductMixin):
                 )
         return cls(data_dict["name"], data_dict["description"], data_dict["price"], data_dict["quantity"])
 
-
     def __str__(self):
         """
         Магический метод __str__ для формирования f-строки по товару/продукту для печати
         :return: f-cтрока для печати
         """
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity}"
-
 
     def __add__(self, other) -> Any:
         """
@@ -112,7 +124,6 @@ class Product(BaseProduct, ProductMixin):
         if type(other) is not self.__class__:
             raise TypeError
         return (self.price * self.quantity) + (other.price * other.quantity)
-
 
 
 class Smartphone(Product):
@@ -152,7 +163,6 @@ class Smartphone(Product):
         self.model = model
         self.memory = memory
         self.color = color
-
 
 
 class LawnGrass(Product):
