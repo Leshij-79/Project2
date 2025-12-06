@@ -1,6 +1,6 @@
 import pytest
 
-from src.product import Product
+from src.product import LawnGrass, Product, Smartphone
 
 
 def test_product_init(fixture_product: Product) -> None:
@@ -36,21 +36,19 @@ def test_product_price_setter_zero_price(capsys, fixture_product: Product) -> No
     assert message == "Цена не должна быть нулевая или отрицательная\n"
 
 
-@pytest.mark.parametrize(
-    "data_dict", [{"name": '55" QLED 4K', "description": "Фоновая подсветка", "price": 12000, "quantity": 7}]
-)
+@pytest.mark.parametrize("data_dict", [({'name': '55" QLED 4K', 'description': "Фоновая подсветка",
+                                         'price': 12000, 'quantity': 7})])
 def test_product_new_product(data_dict: dict) -> None:
     """
     Тест на добавление товара
     Использование параметризации
     :return: Результат теста
     """
-    assert Product.new_product(data_dict).name == data_dict["name"]
+    assert Product.new_product(data_dict).name == data_dict['name']
 
 
-@pytest.mark.parametrize(
-    "data_dict", [{"name": '55" QLED 4K', "description": "Фоновая подсветка", "price": 0, "quantity": 7}]
-)
+@pytest.mark.parametrize("data_dict", [({'name': '55" QLED 4K', 'description': "Фоновая подсветка",
+                                         'price': 0, 'quantity': 7})])
 def test_product_new_product_zero_price(capsys, data_dict: dict) -> None:
     """
     Тест на добавление товара с нулевой ценой
@@ -62,9 +60,8 @@ def test_product_new_product_zero_price(capsys, data_dict: dict) -> None:
     assert message == "Цена не должна быть нулевая или отрицательная\n"
 
 
-@pytest.mark.parametrize(
-    "data_dict", [{"name": '55" QLED 4K', "description": "Фоновая подсветка", "price": 120000, "quantity": 7}]
-)
+@pytest.mark.parametrize("data_dict", [({'name': '55" QLED 4K', 'description': "Фоновая подсветка",
+                                         'price': 120000, 'quantity': 7})])
 def test_product_new_product_double_product(data_dict: dict) -> None:
     """
     Тест на добавление товара с дублированием наименования
@@ -77,9 +74,8 @@ def test_product_new_product_double_product(data_dict: dict) -> None:
     assert list_product[0].quantity == 14
 
 
-@pytest.mark.parametrize(
-    "data_dict", [{"name": '55" QLED 4K', "description": "Фоновая подсветка", "price": 125000, "quantity": 7}]
-)
+@pytest.mark.parametrize("data_dict", [({'name': '55" QLED 4K', 'description': "Фоновая подсветка",
+                                         'price': 125000, 'quantity': 7})])
 def test_product_new_product_double_product_second(data_dict: dict) -> None:
     """
     Тест на добавление товара с дублированием наименования
@@ -106,6 +102,45 @@ def test_product_new_product_double_product_third(data_dict) -> None:
     assert list_product[1].name == '55" QLED 4K-1'
     assert list_product[1].price == 125000.0
     assert list_product[1].quantity == 7
+
+
+def test_product_smartphone_init(fixture_smartphone: Smartphone) -> None:
+    assert fixture_smartphone.name == "Iphone 15"
+    assert fixture_smartphone.description == "512GB, Gray space"
+    assert fixture_smartphone.price == 210000.0
+    assert fixture_smartphone.quantity == 8
+    assert fixture_smartphone.efficiency == 98.2
+    assert fixture_smartphone.model == "15"
+    assert fixture_smartphone.memory == 512
+    assert fixture_smartphone.color == "Gray space"
+
+
+def test_product_lawngrass_init(fixture_lawngrass: LawnGrass) -> None:
+    assert fixture_lawngrass.name == "Газонная трава"
+    assert fixture_lawngrass.description == "Элитная трава для газона"
+    assert fixture_lawngrass.price == 500.0
+    assert fixture_lawngrass.quantity == 20
+    assert fixture_lawngrass.country == "Россия"
+    assert fixture_lawngrass.germination_period == "7 дней"
+    assert fixture_lawngrass.color == "Зеленый"
+
+
+def test_product_smartphone_add(fixture_smartphone: Smartphone, fixture_smartphone_second: Smartphone) -> None:
+    assert fixture_smartphone + fixture_smartphone_second == 2580000.0
+
+
+def test_product_lawngrass_add(fixture_lawngrass: LawnGrass, fixture_lawngrass_second: LawnGrass) -> None:
+    assert fixture_lawngrass + fixture_lawngrass_second == 16750.0
+
+
+def test_product_smartphone_add_error(fixture_smartphone: Smartphone) -> None:
+    with pytest.raises(TypeError):
+        fixture_smartphone + 1
+
+
+def test_product_lawngrass_add_error(fixture_lawngrass: LawnGrass) -> None:
+    with pytest.raises(TypeError):
+        fixture_lawngrass + 1
 
 
 def test_print_product(fixture_product) -> None:

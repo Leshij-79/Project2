@@ -55,5 +55,8 @@ class Category:
         Добавляет продукт/товар в категорию продуктов/товаров
         :param product: Объект класса Product
         """
-        Category.product_count += 1
-        self.__products.append(product)
+        if isinstance(product, Product):
+            Category.product_count += 1
+            self.__products.append(product)
+        else:
+            raise TypeError

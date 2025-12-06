@@ -1,3 +1,5 @@
+import pytest
+
 from src.category import Category
 from src.product import Product
 
@@ -34,6 +36,15 @@ def test_add_product(fixture_category_second: Category) -> None:
     product2 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
     fixture_category_second.add_product(product2)
     assert fixture_category_second.category_count == 3
+
+
+def test_add_product_error(fixture_category_second: Category) -> None:
+    """
+    Тест на ошибочный класс при добавлении товара или продукта в категорию
+    :return: Результат теста
+    """
+    with pytest.raises(TypeError):
+        fixture_category_second.add_product(1)
 
 
 def test_number_of_products(fixture_category_second) -> None:
