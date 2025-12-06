@@ -1,7 +1,8 @@
 import pytest
 
 from src.category import Category
-from src.product import Product
+from src.category_iterator import CategoryIterator
+from src.product import Product, Smartphone, LawnGrass
 
 
 @pytest.fixture

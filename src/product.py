@@ -1,7 +1,26 @@
+from abc import ABC, abstractmethod
 from typing import Any
 
 
-class Product:
+class BaseProduct(ABC):
+
+    @abstractmethod
+    def __add__(self,other):
+        pass
+
+
+class ProductMixin:
+
+    def __init__(self):
+        print(repr(self))
+
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.name}, {self.description}, {self.price}, {self.quantity})"
+
+
+
+class Product(BaseProduct, ProductMixin):
     """
     Класс товаров и их цены и количества
     """
@@ -23,6 +42,7 @@ class Product:
         self.description = description
         self.__price = price
         self.quantity = quantity
+        super().__init__()
 
     @property
     def price(self) -> Any:
@@ -76,6 +96,25 @@ class Product:
         return cls(data_dict["name"], data_dict["description"], data_dict["price"], data_dict["quantity"])
 
 
+    def __str__(self):
+        """
+        Магический метод __str__ для формирования f-строки по товару/продукту для печати
+        :return: f-cтрока для печати
+        """
+        return f"{self.name}, {self.__price} руб. Остаток: {self.quantity}"
+
+
+    def __add__(self, other) -> Any:
+        """
+        Метод сложения суммы по двум товарам класса Smartphone с проверкой на соответствие класса
+        :param other: Ссылка на второй объект товара класса Smartphone
+        """
+        if type(other) is not self.__class__:
+            raise TypeError
+        return (self.price * self.quantity) + (other.price * other.quantity)
+
+
+
 class Smartphone(Product):
     """
     Класс товаров по виду Смартфон. Дочерний класс класса Product
@@ -114,14 +153,6 @@ class Smartphone(Product):
         self.memory = memory
         self.color = color
 
-    def __add__(self, other) -> Any:
-        """
-        Метод сложения суммы по двум товарам класса Smartphone с проверкой на соответствие класса
-        :param other: Ссылка на второй объект товара класса Smartphone
-        """
-        if not isinstance(other, Smartphone):
-            raise TypeError
-        return (self.price * self.quantity) + (other.price * other.quantity)
 
 
 class LawnGrass(Product):
@@ -157,13 +188,3 @@ class LawnGrass(Product):
         self.country = country
         self.germination_period = germination_period
         self.color = color
-
-    def __add__(self, other) -> Any:
-        """
-        Метод сложения суммы по двум товарам класса LawnGrass с проверкой на соответствие класса
-        :param other: Ссылка на второй объект товара класса LawnGrass
-        :return: Сумма по двум товарам
-        """
-        if not isinstance(other, LawnGrass):
-            raise TypeError
-        return (self.price * self.quantity) + (other.price * other.quantity)

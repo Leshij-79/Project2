@@ -31,9 +31,10 @@ def test_product_price_setter_zero_price(capsys, fixture_product: Product) -> No
     :param fixture_product: Фикстура товара
     :return: Результат теста
     """
+    message = capsys.readouterr()
     fixture_product.price = 0.0
-    message = capsys.readouterr()[0]
-    assert message == "Цена не должна быть нулевая или отрицательная\n"
+    message = capsys.readouterr()
+    assert message.out.strip() == "Цена не должна быть нулевая или отрицательная"
 
 
 @pytest.mark.parametrize("data_dict", [({'name': '55" QLED 4K', 'description': "Фоновая подсветка",
