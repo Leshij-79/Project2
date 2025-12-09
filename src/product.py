@@ -1,7 +1,40 @@
+from abc import ABC, abstractmethod
 from typing import Any
 
 
-class Product:
+class BaseProduct(ABC):
+    """
+    Абстрактный базовый класс для класса Product
+    """
+
+    @abstractmethod
+    def __add__(self, other):
+        """
+        Адстрактный метод __add__
+        """
+        pass
+
+
+class ProductMixin:
+    """
+    Класс миксин для класса Product
+    """
+
+    def __init__(self):
+        """
+        Инициализация класса миксина
+        """
+        print(repr(self))
+
+    def __repr__(self):
+        """
+        Переопределение метода __repr__
+        :return: f-строка для вывода информации
+        """
+        return f"{self.__class__.__name__}({self.name}, {self.description}, {self.price}, {self.quantity})"
+
+
+class Product(BaseProduct, ProductMixin):
     """
     Класс товаров и их цены и количества
     """
@@ -23,6 +56,7 @@ class Product:
         self.description = description
         self.__price = price
         self.quantity = quantity
+        super().__init__()
 
     @property
     def price(self) -> Any:
@@ -82,9 +116,85 @@ class Product:
         """
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity}"
 
-    def __add__(self, other) -> float:
+    def __add__(self, other) -> Any:
         """
-        Магический метод __add__ для расчета общей суммы по двум товарам
-        :return: Общая сумма по двум товарам в формате float
+        Метод сложения суммы по двум товарам класса Smartphone с проверкой на соответствие класса
+        :param other: Ссылка на второй объект товара класса Smartphone
         """
-        return (self.__price * self.quantity) + (other.__price * other.quantity)
+        if type(other) is not self.__class__:
+            raise TypeError
+        return (self.price * self.quantity) + (other.price * other.quantity)
+
+
+class Smartphone(Product):
+    """
+    Класс товаров по виду Смартфон. Дочерний класс класса Product
+    """
+
+    efficiency: float
+    model: str
+    memory: int
+    color: str
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        efficiency: float,
+        model: str,
+        memory: int,
+        color: str,
+    ):
+        """
+        Инициализация класса Smartphone
+        :param name: Наименование продукта/товара в формате строки
+        :param description: Описание продукта/товара в формате строки
+        :param price: Цена продукта/товара в формате числа с плавающей точкой
+        :param quantity: Количество на складе в формате целого числа
+        :param efficiency: Производительность
+        :param model: Модель смартфона
+        :param memory: Объём встроенной памяти
+        :param color: Цвет
+        """
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+
+class LawnGrass(Product):
+    """
+    Класс товаров по виду Трава газонная. Дочерний класс класса Product
+    """
+
+    country: str
+    germination_period: str
+    color: str
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: str,
+        color: str,
+    ):
+        """
+        Инициализация класса LawnGrass
+        :param name: Наименование продукта/товара в формате строки
+        :param description: Описание продукта/товара в формате строки
+        :param price: Цена продукта/товара в формате числа с плавающей точкой
+        :param quantity: Количество на складе в формате целого числа
+        :param country: Страна производитель
+        :param germination_period: Срок прорастания
+        :param color: Цвет
+        """
+        super().__init__(name, description, price, quantity)
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color

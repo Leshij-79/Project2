@@ -55,5 +55,17 @@ class Category:
         Добавляет продукт/товар в категорию продуктов/товаров
         :param product: Объект класса Product
         """
-        Category.product_count += 1
-        self.__products.append(product)
+        if isinstance(product, Product):
+            Category.product_count += 1
+            self.__products.append(product)
+        else:
+            raise TypeError
+
+    def __str__(self):
+        """
+        Строковое отображение в следующем виде: Название категории, количество продуктов: XXX шт.
+        """
+        summ_prod = 0
+        for prod in self.__products:
+            summ_prod += prod.quantity
+        return f"{self.name}, количество продуктов: {summ_prod} шт."
