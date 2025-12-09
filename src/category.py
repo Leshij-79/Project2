@@ -22,7 +22,6 @@ class Category:
         self.name = name
         self.description = description
         self.__products = products
-
         Category.category_count += 1
         Category.product_count += len(products)
 
@@ -69,3 +68,18 @@ class Category:
         for prod in self.__products:
             summ_prod += prod.quantity
         return f"{self.name}, количество продуктов: {summ_prod} шт."
+
+    def middle_price(self) -> float:
+        """
+        Метод для расчета средней цены товаров в категории
+        :return: Средняя цена товаров в категории. В случае если товаров нет, возвращается 0
+        """
+        price_all_product = 0
+        for item in self.__products:
+            price_all_product += item.price
+
+        try:
+            average_price = round(price_all_product / len(self.__products), 2)
+        except ZeroDivisionError:
+            average_price = 0.00
+        return average_price
