@@ -54,3 +54,20 @@ def test_number_of_products(fixture_category_second) -> None:
     :return: Результаты теста
     """
     assert str(fixture_category_second) == "Телевизоры, количество продуктов: 15 шт."
+
+
+def test_middle_price(fixture_category_second) -> None:
+    """
+    Тестирование метода расчёта средней цены товаров в категории
+    :param fixture_category_second: Фикстура двух товаров
+    :return: Результат теста
+    """
+    assert fixture_category_second.middle_price() == 111000.00
+
+
+def test_middle_price_zero() -> None:
+    """
+    Тестирование ошибки расчета средней цены товаров в пустой категории
+    :return: Результат теста
+    """
+    assert Category("Пустая категория", "Категория без продуктов", []).middle_price() == 0.00

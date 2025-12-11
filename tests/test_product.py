@@ -15,6 +15,15 @@ def test_product_init(fixture_product: Product) -> None:
     assert fixture_product.description == "Фоновая подсветка"
 
 
+def test_product_init_quantity_zero() -> None:
+    """
+    Тест инициализации класса товаров
+    :return: Результат тестов
+    """
+    with pytest.raises(ValueError):
+        Product('55" QLED 4K', "Фоновая подсветка", 12000, 0)
+
+
 def test_product_price_setter(fixture_product: Product) -> None:
     """
     Тест сеттера изменения цены товара
